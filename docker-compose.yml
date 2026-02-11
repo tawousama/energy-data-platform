@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # === Base de données PostgreSQL ===
+  db:
+    image: postgres:15-alpine
+    container_name: energy-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: energy_db
+      POSTGRES_USER: energy_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-energy_password}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - energy-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U energy_user -d energy_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Backend FastAPI ===
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: energy-backend
+    restart: unless-stopped
+    environment:
+      # Database
+      DATABASE_URL: postgresql://energy_user:${DB_PASSWORD:-energy_password}@db:5432/energy_db
+      
+      # API Settings
+      PROJECT_NAME: "Energy Data Platform API"
+      VERSION: "1.0.0"
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production-very-secret-key-12345}
+      
+      # CORS
+      BACKEND_CORS_ORIGINS: '["http://localhost:3000","http://localhost:5173","http://localhost"]'
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    networks:
+      - energy-network
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        sleep 5 &&
+        echo 'Running migrations...' &&
+        python -c 'from app.core.database import Base, engine; Base.metadata.create_all(bind=engine)' &&
+        echo 'Starting server...' &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  # === Frontend React ===
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: energy-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - energy-network
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+# === Volumes ===
+volumes:
+  postgres_data:
+    driver: local
+
+# === Networks ===
+networks:
+  energy-network:
+    driver: bridge
