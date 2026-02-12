@@ -1,5 +1,6 @@
 server {
-    listen ${PORT};
+    listen 8080;
+    # listen ${PORT};
     server_name _;  # Accepte tous les hostnames
     root /usr/share/nginx/html;
     index index.html;
@@ -23,7 +24,8 @@ server {
 
     # Proxy pour l'API
     location /api {
-        proxy_pass ${BACKEND_URL};
+        proxy_pass https://backend-production-7ef8.up.railway.app;
+        # proxy_pass ${BACKEND_URL};
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
