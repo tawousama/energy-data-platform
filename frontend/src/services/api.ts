@@ -22,7 +22,7 @@ import type {
 // Configuration de l'URL de base de l'API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 console.log('API URL:', API_BASE_URL);
-const API_V1 = `${API_BASE_URL}/v1`;
+const API_V1 = `${API_BASE_URL}/api/v1`;
 
 // Instance Axios configurée
 const apiClient = axios.create({
