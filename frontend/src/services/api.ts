@@ -21,7 +21,7 @@ import type {
 
 // Configuration de l'URL de base de l'API
 // const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const API_BASE_URL = '/api';
+const API_BASE_URL = '/https://backend-production-7ef8.up.railway.app/api';
 console.log(API_BASE_URL);
 const API_V1 = `${API_BASE_URL}/v1`;
 
