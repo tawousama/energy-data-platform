@@ -28,7 +28,8 @@ class Settings(BaseSettings):
     
     # CORS - Origines autorisées
     BACKEND_CORS_ORIGINS: List[str] = [
-        "https://frontend-production-443f.up.railway.app"
+        "https://frontend-production-443f.up.railway.app",
+        "https://backend-production-7ef8.up.railway.app",
         "http://localhost:3000",
         "http://localhost:5173",
     ]
