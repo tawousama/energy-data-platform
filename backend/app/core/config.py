@@ -27,9 +27,9 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     
     # CORS - Origines autorisées
-    BACKEND_CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:5173",
+    BACKEND_CORS_ORIGINS: List[str] = ["*"
+        # "http://localhost:3000",
+        # "http://localhost:5173",
     ]
     
     # Database PostgreSQL
