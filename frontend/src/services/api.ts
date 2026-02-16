@@ -20,12 +20,10 @@ import type {
 } from '../types';
 
 // Configuration de l'URL de base de l'API
-// // @ts-ignore
-// const API_BASE_URL = window.APP_CONFIG?.API_URL|| 'http://localhost:8000';
-const API_BASE_URL = "https://backend-production-7ef8.up.railway.app";
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 console.log('API URL:', API_BASE_URL);
 const API_V1 = `${API_BASE_URL}/api/v1`;
-console.log('API URL:', API_V1);
+
 // Instance Axios configurée
 const apiClient = axios.create({
   baseURL: API_V1,
@@ -33,7 +31,7 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-console.log(apiClient.getUri());
+
 // Intercepteur pour logger les erreurs (utile en dev)
 apiClient.interceptors.response.use(
   (response) => response,
