@@ -52,7 +52,7 @@ export const sitesApi = {
     site_type?: string; 
     search?: string;
   }): Promise<Site[]> => {
-    const response = await apiClient.get<Site[]>('/sites', { params });
+    const response = await apiClient.get<Site[]>('/sites/', { params });
     return response.data;
   },
 
@@ -68,7 +68,7 @@ export const sitesApi = {
    * Crée un nouveau site
    */
   create: async (site: SiteCreate): Promise<Site> => {
-    const response = await apiClient.post<Site>('/sites', site);
+    const response = await apiClient.post<Site>('/sites/', site);
     return response.data;
   },
 
