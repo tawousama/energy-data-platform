@@ -25,7 +25,7 @@ import type {
 const API_BASE_URL = "https://backend-production-7ef8.up.railway.app";
 console.log('API URL:', API_BASE_URL);
 const API_V1 = `${API_BASE_URL}/api/v1`;
-
+console.log('API URL:', API_V1);
 // Instance Axios configurée
 const apiClient = axios.create({
   baseURL: API_V1,
@@ -33,7 +33,7 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
+console.log(apiClient.getUri());
 // Intercepteur pour logger les erreurs (utile en dev)
 apiClient.interceptors.response.use(
   (response) => response,
