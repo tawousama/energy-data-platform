@@ -26,11 +26,12 @@ const API_V1 = `${API_BASE_URL}/api/v1`;
 
 // Instance Axios configurée
 const apiClient = axios.create({
-  baseURL: API_V1,
+  baseURL: "https://backend-production-443.up.railway.app/api/v1",
   headers: {
     'Content-Type': 'application/json',
   },
 });
+console.log("baseURL", apiClient.getUri());
 
 // Intercepteur pour logger les erreurs (utile en dev)
 apiClient.interceptors.response.use(
