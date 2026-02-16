@@ -28,7 +28,7 @@ COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copier le template nginx (IMPORTANT)
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
-ENV BACKEND_URL=https://backend-production-7ef8.up.railway.app
+ENV VITE_API_URL=https://backend-production-7ef8.up.railway.app
 ENV PORT=8081
 # Exposer le port
 EXPOSE 80
